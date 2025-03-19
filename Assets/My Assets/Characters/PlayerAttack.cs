@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerAttack : MonoBehaviour
 {
@@ -17,68 +18,53 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField]
     private LayerMask targetPlayer;
     private Animator animatorAttack;
-   
+
+    //new input system
+    private int comboStep=0;
+    private float lastClickTime = 0f;
+    private float comboDelay = 0f;
+    private bool HasAnimationAT;
+    //Id animation
+    private int _IDAttack_1 = Animator.StringToHash("Attack");
+
     private void Start()
     {
         animatorAttack =  GetComponent<Animator>();
+
     }
     private void Update()
     {
-        Attack();
+        AttackPoint();
     }
-    public void Attack()
+       
+    public void OnAttack(InputValue value)
     {
 
-
-        if (Input.GetMouseButtonDown(0))
+        if (value.isPressed)
         {
-
-            if (Time.time - m_AttackTime < 1.5f) // 1 giây để bấm đòn tiếp theo
-            {
-                m_AttackClick++; // Tăng combo bước tiếp theo
-
-            }
-
-                m_AttackTime = Time.time; // Cập nhật thời gian nhấn chuột
-
-                // Kích hoạt attack animation theo bước combo
-                if (m_AttackClick == 1)
-                {
-                    animatorAttack.SetTrigger("Attack");
-                }
-                else if (m_AttackClick == 2)
-                {
-                    animatorAttack.SetTrigger("Attack2");
-                }
-                else if (m_AttackClick == 3)
-                {
-                    animatorAttack.SetTrigger("Attack3");
-
-                }
-            
-            else
-            {
-                m_AttackTime = 0f;
-                m_AttackClick = 0; // Reset combo sau đòn thứ 3
-                animatorAttack.SetBool("IsIdleAttack", true);
-                StartCoroutine(idleNormal()); // Chờ 3 giây rồi tắt IsIdleAttack
-            }
+            HandleCombo();
         }
+    }
 
-        IEnumerator idleNormal()
+    private void HandleCombo()
+    {
+        animatorAttack.SetTrigger(_IDAttack_1);
+    }
+
+
+    public void AttackPoint()
+    {
+        if (hitPoint != null)
         {
-            yield return new WaitForSeconds(3f);
-            animatorAttack.SetBool("IsIdleAttack", false);
-        }
-
-        foreach (Transform t in hitPoint)
-        {
-            Collider[] hit = Physics.OverlapSphere(t.position, radius, targetPlayer);// tạo hình cầu ảo để gây dame.
-
-            if (hit.Length > 0)// đảm bảo có 1 đối tượng tác động.
+            foreach (Transform t in hitPoint)
             {
-                hit[0].GetComponent<PlayerHealth>().TakeDamage(dame);// tạo list collider xem các gameobject có component health nhận dame.
-                Instantiate(Effect.transform, hit[0].transform.position + new Vector3(0f, 1f, 0f), Quaternion.identity); // tạo bản sao effect.
+                Collider[] hit = Physics.OverlapSphere(t.position, radius, targetPlayer);// tạo hình cầu ảo để gây dame.
+
+                if (hit.Length > 0)// đảm bảo có 1 đối tượng tác động.
+                {
+                    hit[0].GetComponent<PlayerHealth>().TakeDamage(dame);// tạo list collider xem các gameobject có component health nhận dame.
+                    Instantiate(Effect.transform, hit[0].transform.position + new Vector3(0f, 1f, 0f), Quaternion.identity); // tạo bản sao effect.
+                }
             }
         }
     }

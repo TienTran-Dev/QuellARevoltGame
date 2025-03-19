@@ -321,7 +321,6 @@ public class PlayerMovemnet : MonoBehaviour
 
     private Vector3 AirVelocity()
     {
-        Debug.Log($"Y:{ _input.move.y}");
        return (((transform.forward * Mathf.Abs(_input.move.y)) +(transform.right * Mathf.Abs(_input.move.x)))).normalized *(airControl/100f) ;
     }
     private static float ClampAngle(float lfAngle, float lfMin, float lfMax)

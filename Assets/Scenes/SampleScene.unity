@@ -975,7 +975,7 @@ MonoBehaviour:
   bottomClamp: -30
   cameraAngleOverride: 0
   lockCameraPosition: 0
-  airControl: 3
+  airControl: 2.04
   targetDirection1: {x: 0, y: 0, z: 0}
 --- !u!114 &785487069
 MonoBehaviour:
@@ -993,6 +993,7 @@ MonoBehaviour:
   look: {x: 0, y: 0}
   jump: 0
   sprint: 0
+  IsAttack: 0
   analogMovement: 0
   lockCursor: 1
   cursorInputForLook: 1
@@ -5153,7 +5154,7 @@ MonoBehaviour:
       m_Bits: 1
     IgnoreTag: Player
     CameraRadius: 0.001
-    DampingIntoCollision: 0
+    DampingIntoCollision: 2.03
     DampingFromCollision: 5
 --- !u!1001 &2089824308
 PrefabInstance:

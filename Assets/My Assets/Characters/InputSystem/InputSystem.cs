@@ -9,7 +9,7 @@ public class InputSystem : MonoBehaviour
     public Vector2 look;
     public bool jump;
     public bool sprint;
-    
+    public bool IsAttack;
 
     // movement settings
     public bool analogMovement;
@@ -61,10 +61,6 @@ public class InputSystem : MonoBehaviour
         sprint = NewSprintState;
     }
 
-    public void Attack()
-    {
-
-    }
 
     // khi vào game khóa trỏ không cho hiện và khi vào menu vẫn sử dụng dc.
     private void SetcursorState(bool NewCursorState)
