@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 public class InputSystem : MonoBehaviour
@@ -8,6 +9,7 @@ public class InputSystem : MonoBehaviour
     public Vector2 look;
     public bool jump;
     public bool sprint;
+    
 
     // movement settings
     public bool analogMovement;
@@ -57,6 +59,11 @@ public class InputSystem : MonoBehaviour
     public void SprintInput(bool NewSprintState)
     {
         sprint = NewSprintState;
+    }
+
+    public void Attack()
+    {
+
     }
 
     // khi vào game khóa trỏ không cho hiện và khi vào menu vẫn sử dụng dc.

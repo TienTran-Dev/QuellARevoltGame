@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Unity.VisualScripting;
+using UnityEngine;
 #if ENABLE_INPUT_SYSTEM 
 using UnityEngine.InputSystem;
 // Kiểm tra xem hệ thống Input System có được bật không, nếu có thì import
@@ -45,6 +46,10 @@ public class PlayerMovemnet : MonoBehaviour
     private float cameraAngleOverride;// chỉnh góc cam  aim_default vào nhân vật.
     [SerializeField]
     private bool lockCameraPosition = false;// lock cam ko cho xoay.
+    [SerializeField]
+    private float airControl;
+    [SerializeField]
+    private Vector3 targetDirection1;
 
 
     //các biến mặc định của nhân vật
@@ -238,7 +243,7 @@ public class PlayerMovemnet : MonoBehaviour
             //cập nhật góc xoay của nhân vật sang trái và sang phải.
 
         }
-        Vector3 targetDirection1 = Quaternion.Euler(0.0f, _targetRotation, 0.0f) * Vector3.forward;
+         targetDirection1 = Quaternion.Euler(0.0f, _targetRotation, 0.0f) * Vector3.forward;
         // cập nhật hướng di chuyển về phía trước theo góc xoay của camera . 
         _controller.Move(targetDirection1.normalized * (_speed * Time.deltaTime) +
                              new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
@@ -300,15 +305,24 @@ public class PlayerMovemnet : MonoBehaviour
                 if (_hasAnimator)
                     _animator.SetBool(_animIDFreeFall, true);
                 //bật rơi tự do.
+                _controller.Move(AirVelocity());
+                _input.jump = false;
             }
 
             _input.jump = false;
             // đang rơi không cho nhảy tiếp
 
         }
-            if (_verticalVelocity < _terminalVelocity) _verticalVelocity += gravity * Time.deltaTime;
+        
+        if (_verticalVelocity < _terminalVelocity) _verticalVelocity += gravity * Time.deltaTime;
         // nếu vận tốc rơi hiện tại bé hơn vận tốc max thì cộng thêm trọng lực theo thời gian.
 
+    }
+
+    private Vector3 AirVelocity()
+    {
+        Debug.Log($"Y:{ _input.move.y}");
+       return (((transform.forward * Mathf.Abs(_input.move.y)) +(transform.right * Mathf.Abs(_input.move.x)))).normalized *(airControl/100f) ;
     }
     private static float ClampAngle(float lfAngle, float lfMin, float lfMax)
     // dùng static khi hàm chỉ của class và không liên quan đến obj mà chỉ tính toán cơ bản.

@@ -355,7 +355,7 @@ Transform:
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: -0.09297881, z: 0, w: 0.9956681}
-  m_LocalPosition: {x: 64.06545, y: 3.132, z: 127.451866}
+  m_LocalPosition: {x: 64.25061, y: 3.132, z: 126.469154}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -820,9 +820,10 @@ GameObject:
   - component: {fileID: 785487061}
   - component: {fileID: 785487063}
   - component: {fileID: 785487064}
-  - component: {fileID: 785487067}
   - component: {fileID: 785487068}
   - component: {fileID: 785487069}
+  - component: {fileID: 785487071}
+  - component: {fileID: 785487070}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -943,25 +944,6 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
---- !u!114 &785487067
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 785487057}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e087ecce43ebbff45a1b360637807d93, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  move: {x: 0, y: 0}
-  look: {x: 0, y: 0}
-  jump: 0
-  sprint: 0
-  analogMovement: 0
-  cursorLocked: 1
-  cursorInputForLook: 1
 --- !u!114 &785487068
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -979,8 +961,8 @@ MonoBehaviour:
   rotationSmoothTime: 0.208
   speedChangeRate: 20
   jumpHeight: 3.03
-  jumpTimeOut: 0.85
-  fallTimeOut: 0.2
+  jumpTimeOut: 0.4
+  fallTimeOut: 0.15
   gravity: -15
   Grounded: 0
   groundedOffset: -0.14
@@ -993,6 +975,8 @@ MonoBehaviour:
   bottomClamp: -30
   cameraAngleOverride: 0
   lockCameraPosition: 0
+  airControl: 3
+  targetDirection1: {x: 0, y: 0, z: 0}
 --- !u!114 &785487069
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1012,6 +996,31 @@ MonoBehaviour:
   analogMovement: 0
   lockCursor: 1
   cursorInputForLook: 1
+--- !u!114 &785487070
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 785487057}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0034ec9c8966e9f43a7ad81892e0fa7d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &785487071
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 785487057}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55a8561c6a8136b4980616f6472a327f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 100
 --- !u!1001 &798872194
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1690,7 +1699,7 @@ GameObject:
   - component: {fileID: 1004965302}
   m_Layer: 0
   m_Name: Lookat
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3623,6 +3632,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: f3043b716ab4b7a4ebf1ba44d706cad4, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
     - target: {fileID: 1084884740351611579, guid: f3043b716ab4b7a4ebf1ba44d706cad4, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.000000025407644
@@ -5093,7 +5106,7 @@ Transform:
   m_GameObject: {fileID: 2047093498}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.09297881, z: 0, w: 0.9956681}
-  m_LocalPosition: {x: 64.06545, y: 3.132, z: 127.451866}
+  m_LocalPosition: {x: 64.25061, y: 3.132, z: 126.469154}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5132,14 +5145,14 @@ MonoBehaviour:
   ShoulderOffset: {x: 0.5, y: -0.4, z: 0}
   VerticalArmLength: 0.4
   CameraSide: 0.5
-  CameraDistance: 3
+  CameraDistance: 4
   AvoidObstacles:
     Enabled: 1
     CollisionFilter:
       serializedVersion: 2
       m_Bits: 1
     IgnoreTag: Player
-    CameraRadius: 0.105
+    CameraRadius: 0.001
     DampingIntoCollision: 0
     DampingFromCollision: 5
 --- !u!1001 &2089824308
