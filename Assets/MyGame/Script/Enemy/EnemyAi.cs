@@ -35,8 +35,8 @@ public class EnemyAi : MonoBehaviour
         {
             EnemyNavMesh.SetDestination(PlayerTransfrom.position);
             EnemyAnimator.SetFloat(_IDSpeed, EnemyNavMesh.velocity.magnitude);
-
+            
         }
-        Debug.Log($"{EnemyNavMesh.velocity.magnitude}");
+       
     }
 }

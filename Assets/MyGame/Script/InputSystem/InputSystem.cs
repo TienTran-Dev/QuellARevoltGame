@@ -9,7 +9,6 @@ public class InputSystem : MonoBehaviour
     public Vector2 look;
     public bool jump;
     public bool sprint;
-    public bool IsAttack;
 
     // movement settings
     public bool analogMovement;

@@ -12,9 +12,8 @@ public class PlayerAnimationEvent : MonoBehaviour
 
     private void PlayerAttacK()
     {
-        if (playerattack != null)
-        {
+        
             playerattack.AttackPoint();
-        }
     }
+    
 } // Thêm event trong animation để hoạt động 

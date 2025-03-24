@@ -8,6 +8,7 @@ public class PlayerHealth : MonoBehaviour
     public void TakeDamage(int dame)
     {
         health -= dame;
+        Debug.Log($"{health}");
         if (health < 0)
         {
             Destroy(this.gameObject);
