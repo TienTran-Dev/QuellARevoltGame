@@ -10,10 +10,18 @@ public class PlayerAnimationEvent : MonoBehaviour
         playerattack = GetComponent<PlayerAttack>();
     }
 
-    private void PlayerAttacK()
+    private void PlayerAttacKHandleft()
     {
         
-            playerattack.AttackPoint();
+            playerattack.AttackPointLeftHand();
+    }
+    private void PlayerAttackHandRight()
+    {
+        playerattack.AttackPointRightHand();
+    }
+private void PlayerAttackLeg()
+    {
+        playerattack.AttackPointLeg();
     }
     
 } // Thêm event trong animation để hoạt động 

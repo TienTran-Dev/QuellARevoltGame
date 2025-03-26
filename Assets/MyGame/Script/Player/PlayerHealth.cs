@@ -1,17 +1,29 @@
+using System;
 using UnityEngine;
 
 public class PlayerHealth : MonoBehaviour
 {
-    [SerializeField]
-    private int health;
+    
+    public int health;
+    public int shied;
+    public int dame;
 
-    public void TakeDamage(int dame)
+    public void TakeDamage()
     {
         health -= dame;
-        Debug.Log($"{health}");
         if (health < 0)
         {
             Destroy(this.gameObject);
         }
     }
+    public void CurrentShied()
+    {
+        shied -= dame;
+        Debug.Log($"{shied}");
+        if (shied < 0)
+        {
+            health -= dame;
+        }
+    }
+   
 }

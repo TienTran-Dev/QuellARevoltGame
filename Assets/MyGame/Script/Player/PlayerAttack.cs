@@ -9,15 +9,19 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField]
     private float radius;
     [SerializeField]
-    private Transform[] hitPoint;
+    private Transform hitPointLeftHand;
     [SerializeField]
-    private int dame;
+    private Transform hitPointRightHand;
+    [SerializeField]
+    private Transform hitPointLeg;
     [SerializeField]
     private GameObject Effect;
     [SerializeField]
     private LayerMask targetPlayer;
     private Animator animatorAttack;
-  
+
+
+
 
     //Id animation
     private int _IDAttack_1 = Animator.StringToHash("Attack");
@@ -27,20 +31,19 @@ public class PlayerAttack : MonoBehaviour
     private void Start()
     {
         animatorAttack = GetComponent<Animator>();
-       
 
     }
-   
+
 
     public void OnAttack(InputValue value)
     {
-       
+
         if (value.isPressed)
         {
             HandleCombo();
-           
+
         }
-       
+
     }
 
     private void HandleCombo()
@@ -58,58 +61,74 @@ public class PlayerAttack : MonoBehaviour
 
         BlockInput(value.isPressed);
         animatorAttack.SetBool(_IDBlock, valueBlock = true);
-        if (!(value.isPressed))
+        GetComponent<PlayerHealth>().CurrentShied();
+        if (!(value.isPressed) || GetComponent<PlayerHealth>().shied < 0)
         {
             animatorAttack.SetBool(_IDBlock, valueBlock = false);
         }
 
     }
 
-    public void AttackPoint()
+    public void AttackPointLeftHand()
     {
-        if (hitPoint != null)
+        if (hitPointLeftHand != null)
         {
-            foreach (Transform t in hitPoint)
+            
+            Collider[] hit = Physics.OverlapSphere(hitPointLeftHand.position, radius, targetPlayer);// tạo hình cầu ảo để gây dame.
+
+            if (hit.Length > 0)// đảm bảo có 1 đối tượng tác động.
             {
+                hit[0].GetComponent<EnemyHealth>().TakeDamage();
 
-                Collider[] hit = Physics.OverlapSphere(t.position, radius, targetPlayer);// tạo hình cầu ảo để gây dame.
-
-                if (hit.Length > 0)// đảm bảo có 1 đối tượng tác động.
-                {
-                        hit[0].GetComponent<PlayerHealth>().TakeDamage(dame);
-                    
-                    // tạo list collider xem các gameobject có component health nhận dame.
-                    Instantiate(Effect.transform, hit[0].transform.position + new Vector3(0f, 1f, 0f), Quaternion.identity); // tạo bản sao effect.
-                }
+                // tạo list collider xem các gameobject có component health nhận dame.
+                Instantiate(Effect.transform, hit[0].transform.position + new Vector3(0f, 1f, 0f), Quaternion.identity); // tạo bản sao effect.
 
             }
 
         }
 
-        //if (hitPoint == null ) return; // Tránh lỗi nếu không có hitPoint nào
-
-        //foreach (Transform t in hitPoint)
-        //{
-        //    Collider[] hitTargets = Physics.OverlapSphere(t.position, radius, targetPlayer);
-        //    //Debug.Log($"{hitPoint}");
-
-        //    foreach (var target in hitTargets)
-        //    {
-
-
-        //        PlayerHealth health = target.GetComponent<PlayerHealth>();
-
-
-        //        if (health != null) // Kiểm tra có PlayerHealth không
-        //        {
-        //            health.TakeDamage(dame);
-        //            Instantiate(Effect, target.transform.position + Vector3.up, Quaternion.identity);
-        //        }
-
-        //    }
-        //}
+       
     }
+    public void AttackPointRightHand()
+    {
+        if (hitPointRightHand != null)
+        {
 
+            Collider[] hit = Physics.OverlapSphere(hitPointRightHand.position, radius, targetPlayer);// tạo hình cầu ảo để gây dame.
+
+            if (hit.Length > 0)// đảm bảo có 1 đối tượng tác động.
+            {
+                hit[0].GetComponent<EnemyHealth>().TakeDamage();
+
+                // tạo list collider xem các gameobject có component health nhận dame.
+                Instantiate(Effect.transform, hit[0].transform.position + new Vector3(0f, 1f, 0f), Quaternion.identity); // tạo bản sao effect.
+
+            }
+
+        }
+
+
+    }
+    public void AttackPointLeg()
+    {
+        if (hitPointLeg != null)
+        {
+
+            Collider[] hit = Physics.OverlapSphere(hitPointLeg.position, radius, targetPlayer);// tạo hình cầu ảo để gây dame.
+
+            if (hit.Length > 0)// đảm bảo có 1 đối tượng tác động.
+            {
+                hit[0].GetComponent<EnemyHealth>().TakeDamage();
+
+                // tạo list collider xem các gameobject có component health nhận dame.
+                Instantiate(Effect.transform, hit[0].transform.position + new Vector3(0f, 1f, 0f), Quaternion.identity); // tạo bản sao effect.
+
+            }
+
+        }
+
+
+    }
 }
 
 
