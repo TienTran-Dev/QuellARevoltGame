@@ -11,7 +11,8 @@ public class PlayerHealth : MonoBehaviour
     public void TakeDamage()
     {
         health -= dame;
-        if (health < 0)
+       
+        if (health <= 0)
         {
             Destroy(this.gameObject);
         }
@@ -22,7 +23,7 @@ public class PlayerHealth : MonoBehaviour
         Debug.Log($"{shied}");
         if (shied < 0)
         {
-            health -= dame;
+            TakeDamage();
         }
     }
    

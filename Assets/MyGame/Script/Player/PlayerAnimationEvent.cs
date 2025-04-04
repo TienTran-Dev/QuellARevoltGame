@@ -10,6 +10,11 @@ public class PlayerAnimationEvent : MonoBehaviour
         playerattack = GetComponent<PlayerAttack>();
     }
 
+    private void BlockedAttack()
+    {
+        
+    }
+
     private void PlayerAttacKHandleft()
     {
         

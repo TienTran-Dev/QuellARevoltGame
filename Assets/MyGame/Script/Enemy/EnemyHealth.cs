@@ -6,7 +6,7 @@ public class EnemyHealth : MonoBehaviour
     public int shied;
     public int dame;
     private Animator _Animator;
-    private int _IDHit = Animator.StringToHash("Hit");
+    private int _IDHit = Animator.StringToHash("ByHit");
 
     private void Start()
     {
@@ -16,7 +16,7 @@ public class EnemyHealth : MonoBehaviour
     {
             health -= dame;
         _Animator.SetTrigger(_IDHit);
-        Debug.Log($"{health}");
+        
         if (health <= 0)
         {
             if(EnemyController.Instance != null)
@@ -31,7 +31,7 @@ public class EnemyHealth : MonoBehaviour
     public void CurrentShied()
     {
         shied -= dame;
-        Debug.Log($"{shied}");
+        
         if (shied < 0)
         {
             health -= dame;

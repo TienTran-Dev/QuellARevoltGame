@@ -306,8 +306,12 @@ public class PlayerMovemnet : MonoBehaviour
             {
                 if (_hasAnimator)
                     _animator.SetBool(_animIDFreeFall, true);
-                //bật rơi tự do.
                 _controller.Move(AirVelocity());
+                //bật rơi tự do.
+                if (_input.sprint)
+                {
+                    _controller.Move(AirVelocity() * 1.2f);
+                }
                 _input.jump = false;
             }
 

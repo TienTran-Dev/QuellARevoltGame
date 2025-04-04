@@ -107,5 +107,5 @@ AssetOrigin:
   productId: 201384
   packageName: Adventure Character
   packageVersion: 1.0
-  assetPath: Assets/Adventure_Character/Textures/Man_Cloth_Up_Ao.tga
+  assetPath: Assets/MyGame/Models/Enemy/Textures/Man_Cloth_Up_Ao.tga
   uploadId: 448636

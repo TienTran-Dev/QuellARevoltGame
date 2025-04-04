@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class EnemyController : MonoBehaviour
 {
@@ -8,6 +9,7 @@ public class EnemyController : MonoBehaviour
     public GameObject EnemyPrefab;
     public List<Transform> ListEnemyTranForm;
     private int count;
+   
 
 
 
@@ -22,12 +24,17 @@ public class EnemyController : MonoBehaviour
 
     }
 
+
     public void CreateEnemy()
     {
 
         for (int i = 0; i < ListEnemyTranForm.Count; i++)
         {
-            Instantiate(EnemyPrefab, ListEnemyTranForm[i].position, Quaternion.identity);
+            
+            
+                Instantiate(EnemyPrefab, ListEnemyTranForm[i].position, Quaternion.identity);
+            
+           
         }              
 
     }
