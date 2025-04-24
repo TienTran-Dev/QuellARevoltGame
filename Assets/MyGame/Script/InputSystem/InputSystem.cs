@@ -17,6 +17,15 @@ public class InputSystem : MonoBehaviour
     public bool lockCursor = true;
     public bool cursorInputForLook = true;
 
+    //singelton
+    public static InputSystem InstanceInput;
+
+    private void Awake()
+    {
+        if (InstanceInput == null) InstanceInput = this;
+        else Destroy(gameObject);
+    }
+
 #if ENABLE_INPUT_SYSTEM
     public void OnMove(InputValue value)
     {

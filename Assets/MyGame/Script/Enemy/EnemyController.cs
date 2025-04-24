@@ -6,10 +6,10 @@ using UnityEngine.AI;
 public class EnemyController : MonoBehaviour
 {
     public static EnemyController Instance;
-    public GameObject EnemyPrefab;
-    public List<Transform> ListEnemyTranForm;
+    //public GameObject EnemyPrefab;
+    //public List<Transform> ListEnemyTranForm;
     private int count;
-   
+
 
 
 
@@ -20,24 +20,25 @@ public class EnemyController : MonoBehaviour
             Instance = this;
             DontDestroyOnLoad(this.gameObject);
         }
-        CreateEnemy();
+        
 
     }
 
 
-    public void CreateEnemy()
-    {
+    //public void CreateEnemy()
+    //{
 
-        for (int i = 0; i < ListEnemyTranForm.Count; i++)
-        {
-            
-            
-                Instantiate(EnemyPrefab, ListEnemyTranForm[i].position, Quaternion.identity);
-            
-           
-        }              
+    //    for (int i = 0; i < ListEnemyTranForm.Count; i++)
+    //    {
 
-    }
+
+    //            Instantiate(EnemyPrefab, ListEnemyTranForm[i].position, Quaternion.identity);
+
+
+    //    }              
+
+    //}
+
 
     public void CountEnemyDead()
     {

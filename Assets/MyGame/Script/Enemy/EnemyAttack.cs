@@ -17,66 +17,43 @@ public class EnemyAttack : MonoBehaviour
     private float RadiusPoint;
     [SerializeField]
     private Transform player;
-    private static EnemyAi _EnemyAi;
-   
-
-    private void Start()
-    {
-        effectEnemy = GetComponent<GameObject>();
-        _EnemyAi = GetComponent<EnemyAi>();
-       
-    }
 
    
 
-
-    public void DistanceAttack()
-    {
-
-        if (_EnemyAi.distance <= 10)
-        {
-            if (_EnemyAi.distance < 1f)
-            {
-                EnemyAttacking();
-                EnemyAttacking2();
-
-            }
-        }
-       
-    }
    
-
     public void EnemyAttacking()
     {
         if (hitPointEnemy != null)
         {
-           
-                Collider[] HitPoint = Physics.OverlapSphere(hitPointEnemy.position, RadiusPoint, PlayerLayerMask);
-                if (HitPoint.Length > 0)
-                { 
-                   HitPoint[0].GetComponent<PlayerHealth>().TakeDamage();
-                    Instantiate(effectEnemy.transform, HitPoint[0].transform.position + new Vector3(0f, 1f, 0f), Quaternion.identity); 
+  
+                Collider[] hits = Physics.OverlapSphere(hitPointEnemy.position, RadiusPoint, PlayerLayerMask);
+                if (hits.Length > 0)
+                {
+                    PlayerHealth health = hits[0].GetComponent<PlayerHealth>();
+                    if (health != null)
+                    {
+                        health.TakeDamage();
+                        Instantiate(effectEnemy, hits[0].transform.position + Vector3.up, Quaternion.identity);
+                    }
                 }
-
-
-            
         }
+    }
 
-    } public void EnemyAttacking2()
+    public void EnemyAttacking2()
     {
         if (hitPointEnemy2 != null)
         {
-           
-                Collider[] HitPoint = Physics.OverlapSphere(hitPointEnemy2.position, RadiusPoint, PlayerLayerMask);
-                if (HitPoint.Length > 0)
-                { 
-                   HitPoint[0].GetComponent<PlayerHealth>().TakeDamage();
-                    Instantiate(effectEnemy.transform, HitPoint[0].transform.position + new Vector3(0f, 1f, 0f), Quaternion.identity); 
+   
+                Collider[] hits = Physics.OverlapSphere(hitPointEnemy2.position, RadiusPoint, PlayerLayerMask);
+                if (hits.Length > 0)
+                {
+                    PlayerHealth health = hits[0].GetComponent<PlayerHealth>();
+                    if (health != null)
+                    {
+                        health.TakeDamage();
+                        Instantiate(effectEnemy, hits[0].transform.position + Vector3.up, Quaternion.identity);
+                    }
                 }
-
-
-            
         }
-
     }
 }

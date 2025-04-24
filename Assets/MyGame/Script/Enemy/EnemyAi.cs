@@ -2,6 +2,7 @@
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Windows;
 using UnityEngine.WSA;
 
 
@@ -23,10 +24,8 @@ public class EnemyAi : MonoBehaviour
     private float ValueSprint;
     [SerializeField]
     private float ValueWalk;
-    [SerializeField]
-    private GameObject Player;
     public static EnemyAttack _EnemyAttack;
-
+    public static PlayerHealth _PlayerHealth;
    
 
 
@@ -35,16 +34,9 @@ public class EnemyAi : MonoBehaviour
         EnemyNavMesh = GetComponent<NavMeshAgent>();
         EnemyAnimator = GetComponent<Animator>();
         PlayerTransfrom = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
-        Player = GetComponent<GameObject>();
         WayPoint.SetParent(null);
-        if (EnemyNavMesh.SetDestination(WayPoint.GetChild(currentWayPoint).position))
-        {
-            _valueSpeed = 1f;
-        }
-       
-        
-
-
+        EnemyNavMesh.SetDestination(WayPoint.GetChild(currentWayPoint).position);
+        _valueSpeed = ValueWalk;
     }
     
     private void Update()
@@ -56,59 +48,73 @@ public class EnemyAi : MonoBehaviour
         }
         else
         {
-            EmemyRadius();
+            EnemyRadius();
         }
         
     }
 
-    public void EmemyRadius()
+    public void EnemyRadius()
     {
         if (EnemyNavMesh.remainingDistance <= 0.2f)
         {
-            currentWayPoint++;
-            if (currentWayPoint >= WayPoint.childCount)
+            int newWaypoint;
+            do
             {
-                currentWayPoint = 0;
-            }
-            EnemyNavMesh.SetDestination(WayPoint.GetChild(currentWayPoint).position);
-            EnemyNavMesh.speed = ValueWalk;
-            EnemyAnimator.SetFloat(_IDSpeed, _valueSpeed=ValueWalk);
-          
-          
+                newWaypoint = Random.Range(0, WayPoint.childCount);
+            } while (newWaypoint == currentWayPoint && WayPoint.childCount > 1);
+
+            currentWayPoint = newWaypoint;
+
+            Vector3 nextPos = WayPoint.GetChild(currentWayPoint).position;
+            EnemyNavMesh.SetDestination(nextPos);
+            //Cập nhật waypoint mới và di chuyển đến vị trí đó
+            _valueSpeed = ValueWalk;
+            EnemyNavMesh.speed = _valueSpeed;
+            EnemyAnimator.SetFloat(_IDSpeed, _valueSpeed);
         }
     }
 
-    private void OnCollisionEnter(Collision collision)
+
+    private void OnTriggerEnter(Collider other)
     {
-        if (collision.gameObject.CompareTag("Player"))
-        {
-            _EnemyAttack.DistanceAttack();
-        }
+        
+            EnemyAnimator.SetTrigger(_IDAttack);
+        
+        
     }
 
     private void MoveToPlayer()
     {
-        if (PlayerTransfrom != null)
+        if (PlayerTransfrom != null)  // Nếu không có player  → bỏ qua
         {
-            // Kiểm tra nếu enemy ở gần player
-            float distance = Vector3.Distance(transform.position, PlayerTransfrom.position);
-            
-            if (distance <= 1f) // khoảng cách có thể điều chỉnh
-            {
-                EnemyNavMesh.isStopped = true;
-                EnemyAnimator.SetFloat(_IDSpeed, _valueSpeed);
-                EnemyAnimator.SetTrigger(_IDAttack);
-                
-            }
-            else
-            {
-                EnemyNavMesh.isStopped = false;
-                EnemyNavMesh.SetDestination(PlayerTransfrom.position);
-                EnemyNavMesh.speed = ValueSprint;
-                EnemyAnimator.SetFloat(_IDSpeed, _valueSpeed = ValueSprint);
+            float distance = Vector3.Distance(transform.position, PlayerTransfrom.position); // Tính khoảng cách với player
 
-            }
+        }
+
+        // Nếu player đã chết
+        if (PlayerHealth.InstancePlayerHealth.health <= 0)
+        {
+            EnemyNavMesh.isStopped = false;
+            EnemyRadius(); // Player chết → quay lại tuần tra
+            return;
+        }
+
+        if (distance <= 1.4f) // Nếu ở gần player (có thể tấn công)
+        {
+            EnemyNavMesh.isStopped = true; // Dừng lại
+            EnemyNavMesh.speed = 0f;
+            EnemyAnimator.SetFloat(_IDSpeed, _valueSpeed=0f); // Gửi tốc độ = 0 để idle
+                EnemyAnimator.SetTrigger(_IDAttack); // Gọi animation tấn công
+            
+        }
+        else if (distance > 2f && distance <= 10f) // Nếu đang ở khoảng vừa đủ để đuổi
+        {
+            EnemyNavMesh.isStopped = false;
+            EnemyNavMesh.SetDestination(PlayerTransfrom.position); // Đuổi theo player
+            EnemyNavMesh.speed = ValueSprint;
+            EnemyAnimator.SetFloat(_IDSpeed, _valueSpeed = ValueSprint); // Cập nhật animation chạy
         }
     }
+
 
 }

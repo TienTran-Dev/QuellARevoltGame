@@ -11,6 +11,11 @@ public class EnemyAttackEvent : MonoBehaviour
 
     private void AttackEventEnemy()
     {
-        _EnemyEvent.DistanceAttack();
+        _EnemyEvent.EnemyAttacking();   
+    }
+    
+    private void AttackEventEnemy2()
+    {
+        _EnemyEvent.EnemyAttacking2();
     }
 }
