@@ -28,9 +28,10 @@ public class PlayerHealth : MonoBehaviour
         health -= dame;
         AnimatorPlayer.SetTrigger(_IDHitPlayer);
         if (health <= 0)
-        { 
+        {
+          
             // Tắt di chuyển/điều khiển
-           var move = GetComponent<PlayerMovemnet>();
+            var move = GetComponent<PlayerMovemnet>();
             if (move != null) move.enabled = false;
            var attack = GetComponent<PlayerAttack>();
             if (attack!= null) attack.enabled = false;
@@ -60,13 +61,9 @@ public class PlayerHealth : MonoBehaviour
         AnimatorPlayer.SetBool(_IDDie, true);
         _input.move = Vector2.zero;
         _input.jump = false;
-        StartCoroutine(WaitToDie());
+       
     }
-    private IEnumerator WaitToDie()
-    {
-        yield return new WaitForSeconds(5);
-        Destroy(this.gameObject);
-    }
+    
     public void CurrentShied()
     {
         shied -= dame;
