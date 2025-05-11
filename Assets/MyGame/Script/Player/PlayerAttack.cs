@@ -19,7 +19,7 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField]
     private LayerMask targetPlayer;
     private Animator animatorAttack;
-
+    private Vector3 attackerPosition;
 
 
 

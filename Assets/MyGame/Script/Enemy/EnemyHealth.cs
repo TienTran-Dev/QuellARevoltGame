@@ -10,7 +10,8 @@ public class EnemyHealth : MonoBehaviour
     public int dame;
     private Animator _Animator;
     private int _IDHit = Animator.StringToHash("ByHit");
-    private int _IDEnemyDie = Animator.StringToHash("EnemyDie");    
+    private int _IDEnemyDie = Animator.StringToHash("EnemyDie");
+    private Vector3 attackerPosition;
 
     private void Start()
     {
@@ -21,6 +22,12 @@ public class EnemyHealth : MonoBehaviour
             health -= dame;
         _Animator.SetTrigger(_IDHit);
         AnimatorStateInfo stateInfo = _Animator.GetCurrentAnimatorStateInfo(0);
+
+        // Đẩy lùi enemy khỏi hướng player
+        Vector3 knockbackDir = (transform.position - attackerPosition).normalized;
+        float knockbackDistance = 1f; // có thể điều chỉnh
+        transform.position += knockbackDir * knockbackDistance;
+
         if (stateInfo.IsTag("Die")) return;
         if (health <= 0)
         {
